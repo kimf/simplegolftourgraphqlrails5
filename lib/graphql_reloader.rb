@@ -1,15 +1,11 @@
 require "digest/md5"
 
-class GraphQLReloader
+class GraphQLReloader < Struct.new :app
   delegate :changed?, to: :class
   delegate :checksum, to: :class
 
-  def initialize(app)
-    @app = app
-  end
-
   def call(env)
     RelaySchema.dump_schema
-    @app.call(env)
+    app.call(env)
   end
 end
