@@ -38,10 +38,6 @@ class User < ActiveRecord::Base
   # membership attributes
   attr_accessor :nickname
 
-  authenticates_with_sorcery! do |config|
-    config.authentications_class = Authentication
-  end
-
   before_save :downcase_email
 
   # validations
