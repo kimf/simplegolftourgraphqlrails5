@@ -43,6 +43,8 @@ GEM
     builder (3.2.2)
     byebug (8.2.2)
     concurrent-ruby (1.0.1)
+    email_validator (1.6.0)
+      activemodel
     erubis (2.7.0)
     ffi (1.9.10)
     globalid (0.3.6)
@@ -129,6 +131,7 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
+  email_validator
   graphql
   graphql-relay
   listen (~> 3.0.5)

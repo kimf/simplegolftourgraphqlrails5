@@ -28,8 +28,9 @@ class Tour < ActiveRecord::Base
 
   belongs_to :creator, class_name: "User", foreign_key: :creator_id
 
-  validates :name, presence: true, uniquness: true
-  validates :custom_domain, presence: true, uniquness: true
+  validates :name, presence: true, uniqueness: true
+  validates :custom_domain, presence: true, uniqueness: true
+
 
   def current_season
     @current_season ||= begin

@@ -7,8 +7,6 @@ QueryType = GraphQL::ObjectType.define do
     argument :id, !types.ID
     description "Root object to get viewer related collections"
 
-    resolve lambda(_obj, args, _ctx) do
-      Tour.find(args["id"])
-    end
+    resolve -> (_obj, args, _ctx) { Tour.find(args["id"]) }
   end
 end
