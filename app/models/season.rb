@@ -28,8 +28,8 @@ class Season < ActiveRecord::Base
   validates :points, presence: true
   validate  :validate_points_array
 
-  default_scope -> { order(:id) }
-  scope :open, -> { where("closed_at IS NULL") }
+  default_scope -> { not_closed.order(created_at: :desc) }
+  scope :not_closed, -> { where("closed_at IS NULL") }
 
   def close!
     update_attribute(:closed_at, Time.zone.now)

@@ -9,11 +9,13 @@ QueryType = GraphQL::ObjectType.define do
     argument :id, !types.ID
 
     # if ctx.ast_node.children.map(&:name).include?('comments')
-    resolve -> (_object, args, _context) do
+    resolve -> (_object, args, context) do
       User.includes(
-        :scores,
-        :events,
-        tours: [seasons: [:scores, :events], memberships: [:user]]
+        tours: [
+          :users,
+          memberships: [:user],
+          seasons: [:events]
+        ]
       ).find(args["id"])
     end
   end

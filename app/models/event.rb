@@ -40,8 +40,8 @@ class Event < ActiveRecord::Base
   enum scoring_type: [:points, :strokes]
 
   default_scope -> { order(:starts_at) }
-  scope :planned,     -> { where("status = ?", statuses[:planned]) }
-  scope :finished,    -> { where("status = ?", statuses[:finished]) }
+  # scope :planned,     -> { where("status = ?", statuses[:planned]) }
+  # scope :finished,    -> { where("status = ?", statuses[:finished]) }
 
   attr_accessor :number_of_players
 
