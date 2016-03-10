@@ -21,6 +21,10 @@ gem "graphql", github: "rmosolgo/graphql-ruby"
 
 gem "email_validator"
 
+gem "memoist"
+
+gem "belongs_to_hstore"
+
 group :development, :test do
   gem "byebug"
 end
@@ -29,6 +33,8 @@ group :development do
   gem "listen", "~> 3.0.5"
   gem "spring"
   gem "spring-watcher-listen", "~> 2.0.0"
+  gem "bullet"
+  gem "lol_dba"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
