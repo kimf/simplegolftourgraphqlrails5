@@ -14,7 +14,7 @@ gem "puma"
 # gem "bcrypt", "~> 3.1.7"
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS)
-# gem "rack-cors"
+gem "rack-cors"
 
 # Graphql
 gem "graphql", github: "rmosolgo/graphql-ruby"
