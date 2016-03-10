@@ -18,7 +18,6 @@ gem "puma"
 
 # Graphql
 gem "graphql", github: "rmosolgo/graphql-ruby"
-gem "graphql-relay", github: "rmosolgo/graphql-relay-ruby"
 
 gem "email_validator"
 
