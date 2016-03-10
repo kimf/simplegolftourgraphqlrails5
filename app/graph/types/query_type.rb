@@ -2,11 +2,19 @@ QueryType = GraphQL::ObjectType.define do
   name "Query"
   description "The query root of this schema. See available queries."
 
-  # Get Tour by ID
-  field :tour, TourType do
+  # Get User by ID
+  field :user do
+    type UserType
+    description "Root object to get user related collections"
     argument :id, !types.ID
-    description "Root object to get viewer related collections"
 
-    resolve -> (_obj, args, _ctx) { Tour.find(args["id"]) }
+    # if ctx.ast_node.children.map(&:name).include?('comments')
+    resolve -> (_object, args, _context) do
+      User.includes(
+        :scores,
+        :events,
+        tours: [seasons: [:scores, :events], memberships: [:user]]
+      ).find(args["id"])
+    end
   end
 end
