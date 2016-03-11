@@ -11,6 +11,6 @@ SeasonType = GraphQL::ObjectType.define do
   field :closed_at, types.String, "The time at which the season was CLOSED"
   field :created_at, !types.String, "The time at which the season was created"
   field :updated_at, !types.String, "The time at which the season was updated"
-  field :leaderboard, -> { !types[!UserType] }, "Leaderboard for season"
+  field :leaderboard, -> { !types[!LeaderboardUserType] }, "Leaderboard for season"
   field :events, -> { !types[!EventType] }, "Events"
 end
