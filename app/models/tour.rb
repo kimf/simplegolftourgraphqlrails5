@@ -34,7 +34,7 @@ class Tour < ActiveRecord::Base
 
   def current_season
     @current_season ||= begin
-      seasons = self.seasons.open
+      seasons = self.seasons.not_closed
       seasons.last
     end
   end
