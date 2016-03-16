@@ -5,7 +5,8 @@ class GraphQLReloader < Struct.new :app
   delegate :checksum, to: :class
 
   def call(env)
-    GraphQL::Introspection::INTROSPECTION_QUERY
+    # GraphQL::Introspection::INTROSPECTION_QUERY
+    RelaySchema.dump_schema
     app.call(env)
   end
 end
