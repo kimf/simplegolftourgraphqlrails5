@@ -21,21 +21,7 @@ QueryType = GraphQL::ObjectType.define do
   end
 
   field :tour do
-    type types[TourType]
-    argument :id, !types.ID
-    description "Get a tour"
-
-    resolve -> (_object, args, context) do
-      Tour.includes(
-        :users,
-        memberships: [:user],
-        seasons: [:events]
-      ).find(args["id"])
-    end
-  end
-
-  field :tour do
-    type types[TourType]
+    type !TourType
     argument :id, !types.ID
     description "Get a tour"
 
