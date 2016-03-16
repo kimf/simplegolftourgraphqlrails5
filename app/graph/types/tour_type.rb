@@ -3,7 +3,11 @@ TourType = GraphQL::ObjectType.define do
   description "A tour with it\"s seasons, and memberships"
 
   # Expose fields associated with Post model
-  field :id, !types.ID, "id of the tour"
+  #field :id, !types.ID, "id of the tour"
+  interfaces [NodeIdentification.interface]
+  # # `id` exposes the UUID
+  global_id_field :id
+
   field :name, !types.String, "The name of the tour"
   field :custom_domain, !types.String, "The custom domain of the tour"
   field :use_custom_domain, !types.Boolean, "Is the tour using custom domain?"
@@ -12,6 +16,15 @@ TourType = GraphQL::ObjectType.define do
   field :updated_at, !types.String, "The time at which the tour was updated"
   field :creator_id, !types.Int, "Creator of the tour"
   field :seasons, !types[!SeasonType], "Seasons"
-  field :current_season, !SeasonType, "Current Season"
+
+  field :currentSeason do
+    type !SeasonType
+    description "Current Season"
+
+    resolve -> (object, _args, _context) do
+      object.current_season
+    end
+  end
+
   field :memberships, -> { !types[!MembershipType] }, "Memberships"
 end

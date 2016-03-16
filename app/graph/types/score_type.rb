@@ -3,7 +3,11 @@ ScoreType = GraphQL::ObjectType.define do
   description "A score"
 
   # Expose fields associated with Post model
-  field :id, !types.ID, "id of the score"
+  #field :id, !types.ID, "id of the score"
+  interfaces [NodeIdentification.interface]
+  # # `id` exposes the UUID
+  global_id_field :id
+
   field :points, !types.Int, "How many points"
   field :event_points, !types.Int, "How many event points"
 

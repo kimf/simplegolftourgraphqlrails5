@@ -4,7 +4,7 @@ QueryType = GraphQL::ObjectType.define do
 
   # Get User by ID
   field :user do
-    type UserType
+    type !UserType
     description "Root object to get user related collections"
     argument :id, !types.ID
 
@@ -20,6 +20,7 @@ QueryType = GraphQL::ObjectType.define do
     end
   end
 
+  # Get Tour by ID
   field :tour do
     type !TourType
     argument :id, !types.ID
