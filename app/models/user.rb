@@ -38,6 +38,10 @@ class User < ActiveRecord::Base
   # membership attributes
   attr_accessor :nickname
 
+  authenticates_with_sorcery! do |config|
+    config.authentications_class = Authentication
+  end
+
   before_save :downcase_email
 
   # validations
@@ -93,5 +97,47 @@ class User < ActiveRecord::Base
 
   def setup_activation!
     send(:setup_activation)
+  end
+
+  def has_role?(role, tour)
+    if role.to_s == "admin" && tour.creator == self
+      return true
+    end
+    membership_for(tour).role.to_s == role.to_s
+  end
+
+  def membership_for(tour)
+    self.memberships.where("tour_id = #{tour.id}").first
+  end
+
+  def short_name
+    names = self.name.split(" ")
+    if names.length > 1
+      name = "#{names[0]} #{names[1][0]}"
+    else
+      name = "#{names[0]}"
+    end
+    name
+  end
+
+  def short_name_for(tour)
+    nick = membership_for(tour).nickname
+    if nick.blank?
+      name = self.short_name
+    else
+      names = nick.split(" ")
+      if names.length > 1
+        name = "#{names[0]} #{names[1][0]}"
+      else
+        name = "#{names[0]}"
+      end
+    end
+    name
+  end
+
+  def name_for(tour)
+    membership = self.membership_for(tour)
+    nick = membership.nil? ? self.name : membership.nickname
+    name = nick.blank? ? self.name : nick
   end
 end

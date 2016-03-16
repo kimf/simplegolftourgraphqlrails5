@@ -4,4 +4,6 @@ Rails.application.routes.draw do
 
   get "/graphiql", to: "graphiql#index"
   resources :queries, only: [:create]
+
+  resources :sessions, only: [:create, :destroy]
 end

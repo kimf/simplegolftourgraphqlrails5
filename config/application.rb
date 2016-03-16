@@ -7,7 +7,7 @@ require "active_model/railtie"
 # require "active_job/railtie"
 require "active_record/railtie"
 require "action_controller/railtie"
-# require "action_mailer/railtie"
+require "action_mailer/railtie"
 # require "action_view/railtie"
 # require "action_cable/engine"
 
@@ -32,7 +32,6 @@ module SimpleGolftour
     config.autoload_paths << Rails.root.join("app/lib")
     config.autoload_paths << Rails.root.join("app/graph/mutations")
     config.autoload_paths << Rails.root.join("app/graph/types")
-    config.active_record.raise_in_transactional_callbacks = true
 
     config.generators do |g|
       g.assets = false
@@ -41,7 +40,7 @@ module SimpleGolftour
       g.helper_specs    false
     end
 
-    config.middleware.insert_before 0, "Rack::Cors" do
+    config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins "*"
         resource "*", headers: :any, methods: [:get, :post, :options]

@@ -71,4 +71,20 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+
+  config.action_mailer.delivery_method = :smtp
+
+  config.action_mailer.smtp_settings = {
+      address:   "smtp.mailgun.org",
+      domain:    "mg.simplegolftour.com",
+      port:      587,
+      enable_starttls_auto: true,
+      user_name: ENV['MAILGUN_USER_NAME'],
+      password:  ENV['MAILGUN_PASSWORD'],
+      authentication: 'plain'
+    }
+
+  config.action_mailer.default_url_options = { host: 'simplegolftour.com' }
+  config.action_mailer.asset_host = 'https://www.simplegolftour.com'
 end

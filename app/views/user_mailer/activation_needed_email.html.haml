@@ -1,0 +1,10 @@
+%h3="Welcome to Simple Golftour!"
+%p.lead="#{@user.name}, Before you go out and play golf, please verify your email address.".html_safe
+
+%p="Why, you ask? Connecting with other players is a essential part of the Simple Golftour experience. We’ll email you when someone climbs past you on the leaderboard."
+
+%p= link_to 'Verify your account', @url, class: 'btn'
+%br
+%p.small="Or verify using this link #{link_to @url, @url}".html_safe
+
+%p="Happy Golfing <br />Kim".html_safe

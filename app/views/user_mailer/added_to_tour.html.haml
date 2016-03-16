@@ -1,0 +1,13 @@
+%h3="Hi #{@user.name}, #{@sender.name} just added you to #{@tour.name}"
+- if @user.active?
+  %p.callout
+    ="My guess is you want to climb that leaderboard!"
+    %br
+    = link_to 'Watch leaderboard', @url
+- else
+  %p.callout
+    ="My guess is you want to climb that leaderboard!"
+    %br
+    = link_to 'Activate account and start competing', @url
+
+%p="Happy Golfing <br />Kim".html_safe

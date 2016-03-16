@@ -1,0 +1,13 @@
+- if @admin
+  %h3="Hi #{@user.name}, #{@changer.name} just made you admin in #{@tour.name}"
+  %p.callout
+    ="Let's put your new founded powers to good use"
+    %br
+    = link_to 'Go to tour', @url
+- else
+  %h3="Hi #{@user.name}, #{@changer.name} just removed your admin rights in #{@tour.name}"
+  %p.callout
+    ="If you think this could be wrong, let me know!"
+    %br
+    = link_to 'Go to tour', @url
+%p="Have a nice day<br />Kim".html_safe

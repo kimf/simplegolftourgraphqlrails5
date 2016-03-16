@@ -1,0 +1,16 @@
+%h3="Once again, welcome to Simple Golftour!"
+
+
+- if @user.tours.empty?
+  %p.lead="The first thing to do is to create a Tour and invite your friends!".html_safe
+  %p= link_to 'Go create a Tour', @url, class: 'btn'
+- elsif @user.friend_ids.empty?
+  %p.lead="Invite some friends to your tour(s) and start competing!".html_safe
+  %p= link_to 'Invite friends', @url, class: 'btn'
+- else
+  %p.lead="Schedule some events and start competing".html_safe
+  %p= link_to 'Schedule events', @url, class: 'btn'
+
+%p="If you have any questions, feature requests or just want to chat about league golf, golf in general or anything else, hit me an email at #{link_to 'kim@simplegolftour.com', 'mailto:kim@simplegolftour.com'}".html_safe
+
+%p="Wishing you alot of birdies,<br>Kim".html_safe

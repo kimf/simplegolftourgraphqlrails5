@@ -1,0 +1,28 @@
+!!!
+%html{xmlns: "http://www.w3.org/1999/xhtml"}
+  %head
+    %meta{content: "width=device-width", name: "viewport"}/
+    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title Simple Golftour
+    = stylesheet_link_tag "email"
+  %body{bgcolor: "#FFFFFF"}
+    / HEADER
+    %table.head-wrap{bgcolor: "#1b8ad4"}
+      %tr
+        %td.header.container
+          .content
+            %table{bgcolor: "#1b8ad4"}
+              %tr
+                %td.logo
+                  = link_to 'https://simplegolftour.com' do
+                    = image_tag "https://simplegolftour.com/assets/logo.png", id: "logo", size: '150x89', title: "Simple Golftour", alt: "Logo"\
+    / /HEADER
+    / BODY
+    %table.body-wrap
+      %tr
+        %td.container{bgcolor: "#FFFFFF"}
+          .content
+            %table
+              %tr
+                %td
+                  = yield

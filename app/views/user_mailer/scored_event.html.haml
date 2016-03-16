@@ -1,0 +1,40 @@
+%br
+%h3="New scores are in for #{@tour.name}"
+%br
+%br
+%h5
+  ="#{@event.gametype.capitalize}"
+  - if @event.team_event?
+    =" (#{@event.scoring_type.capitalize}) "
+  - unless @event.course.empty?
+    = " at #{@event.course} "
+
+.callout
+  %table.table.table-striped.leaderboard{:cellpadding => 0, :cellspacing => 0}
+    %thead
+      %tr
+        %th.number
+        %th.player Player
+        %th.number= @event.points? ? 'Points' : 'Strokes'
+        %th.total.number Event points
+        %th.movement.muted Movement
+    %tbody
+      - @event.leaderboard.each do |score|
+        - l = @tour_leaderboard.select{|s| s == score.user }.first
+        %tr
+          %td.number= score.rank
+          %td.player
+            = score.user.short_name
+          %td.number
+            = "#{score.points}"
+            - @event.points? ? "p" : ""
+          %td.total.number
+            ="#{score.event_points}p"
+          %td.movement.muted
+            = rank_movement(l.position, l.prev_position)
+
+= link_to 'Go see the leaderboard', @tour_url, class: 'btn'
+%br
+%br
+
+%p="How did you do? <br />Kim".html_safe

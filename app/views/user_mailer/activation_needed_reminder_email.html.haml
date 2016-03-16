@@ -1,0 +1,6 @@
+%h3="Hi #{@user.name}"
+%p
+  ="Some while ago #{@invitor.name} added you to #{@tour.name}, and you are missed."
+%p.callout
+  = link_to "Join #{@tour.name}", @url
+%p="Watch out for the bunker <br />Kim".html_safe

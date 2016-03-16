@@ -16,6 +16,9 @@ gem "puma"
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS)
 gem "rack-cors"
 
+
+gem 'haml' #Needed for the emails for now
+
 # Graphql
 gem "graphql", github: "rmosolgo/graphql-ruby"
 gem "graphql-relay", github: "rmosolgo/graphql-relay-ruby"
@@ -26,8 +29,16 @@ gem "memoist"
 
 gem "belongs_to_hstore"
 
+gem "sucker_punch", "~> 1.0"
+
+gem "sorcery"
+
+gem "prowler"
+
 group :development, :test do
   gem "byebug"
+  gem "spring-commands-rspec"
+  gem "launchy"
 end
 
 group :development do
@@ -36,7 +47,15 @@ group :development do
   gem "spring-watcher-listen", "~> 2.0.0"
   gem "bullet"
   gem "lol_dba"
+  gem "letter_opener"
+  gem "rails_db_info"
 end
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+group :test do
+  gem "rspec-rails"
+  gem "rspec-its"
+  gem "factory_girl_rails"
+  gem "capybara"
+  gem "database_cleaner"
+  gem "mocha", require: false
+end
