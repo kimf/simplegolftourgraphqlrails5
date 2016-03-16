@@ -2,11 +2,7 @@ SeasonType = GraphQL::ObjectType.define do
   name "Season"
   description "A season with it\"s events"
 
-  # Expose fields associated with Post model
-  #field :id, !types.ID, "id of the season"
-  interfaces [NodeIdentification.interface]
-  # # `id` exposes the UUID
-  global_id_field :id
+  field :id, !types.ID, "id of the season"
 
   field :aggregate_count, !types.Int, "season"
   field :points_ladder, !types[!types.Int], "points ladder for this season"

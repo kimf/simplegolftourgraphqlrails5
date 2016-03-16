@@ -2,10 +2,7 @@ EventType = GraphQL::ObjectType.define do
   name "Event"
   description "A event with it\"s scores"
 
-  #field :id, !types.ID, "id of the event"
-  interfaces [NodeIdentification.interface]
-  # # `id` exposes the UUID
-  global_id_field :id
+  field :id, !types.ID, "id of the event"
 
   field :course, !types.String, "at what course are the event"
   field :gametype, !types.String, "what gametype are they playing"

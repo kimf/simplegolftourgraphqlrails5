@@ -2,13 +2,8 @@ UserType = GraphQL::ObjectType.define do
   name "User"
   description "An user entry, returns basic user information"
 
+  field :id, !types.ID, "ID"
 
-  interfaces [NodeIdentification.interface]
-  # # `id` exposes the UUID
-  global_id_field :id
-  # field :id, !types.ID, "ID"
-
-  # Expose fields from the model
   field :name, !types.String, "The name of this user"
   field :first_name, !types.String, "The first name of this user"
   field :last_name, !types.String, "The last name of this user"

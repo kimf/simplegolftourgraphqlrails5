@@ -2,11 +2,7 @@ TourType = GraphQL::ObjectType.define do
   name "Tour"
   description "A tour with it\"s seasons, and memberships"
 
-  # Expose fields associated with Post model
-  #field :id, !types.ID, "id of the tour"
-  interfaces [NodeIdentification.interface]
-  # # `id` exposes the UUID
-  global_id_field :id
+  field :id, !types.ID, "id of the tour"
 
   field :name, !types.String, "The name of the tour"
   field :custom_domain, !types.String, "The custom domain of the tour"

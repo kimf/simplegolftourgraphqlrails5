@@ -2,11 +2,7 @@ LeaderboardUserType = GraphQL::ObjectType.define do
   name "LeaderboardUserType"
   description "An user entry, returns basic user information"
 
-  # Expose fields from the model
-  #field :id, !types.ID, "This id of this user"
-  interfaces [NodeIdentification.interface]
-  # # `id` exposes the UUID
-  global_id_field :id
+  field :id, !types.ID, "This id of this user"
 
   field :name, !types.String, "The name of this user"
 
