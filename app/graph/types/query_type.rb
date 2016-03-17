@@ -9,7 +9,7 @@ QueryType = GraphQL::ObjectType.define do
     argument :id, !types.ID
 
     # if ctx.ast_node.children.map(&:name).include?('comments')
-    resolve -> (_object, args, context) do
+    resolve -> (_object, args, _context) do
       User.includes(
         tours: [
           :users,
@@ -20,18 +20,25 @@ QueryType = GraphQL::ObjectType.define do
     end
   end
 
-  # Get Tour by ID
+  # Get a Tour by ID (only the current users tours)
   field :tour do
     type !TourType
     argument :id, !types.ID
     description "Get a tour"
 
     resolve -> (_object, args, context) do
-      Tour.includes(
-        :users,
-        memberships: [:user],
-        seasons: [:events]
+      context[:current_user].tours.includes(
+        :users, memberships: [:user], seasons: [:events]
       ).find(args["id"])
+    end
+  end
+
+
+  field :currentUser do
+    type !UserType
+    description "Get the logged in user and related data"
+    resolve -> (_object, _args, context) do
+      context[:current_user]
     end
   end
 

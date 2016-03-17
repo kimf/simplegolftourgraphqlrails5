@@ -13,6 +13,24 @@
           "description": "The query root of this schema. See available queries.",
           "fields": [
             {
+              "name": "currentUser",
+              "description": "Get the logged in user and related data",
+              "args": [
+
+              ],
+              "type": {
+                "kind": "NON_NULL",
+                "name": "Non-Null",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "User",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "tour",
               "description": "Get a tour",
               "args": [
