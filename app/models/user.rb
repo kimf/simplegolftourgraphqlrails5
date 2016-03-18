@@ -29,6 +29,8 @@
 #  name                            :string(255)
 #
 class User < ActiveRecord::Base
+  has_secure_token :session_token
+
   attr_accessor :remember_me, :authentications_attributes
 
   # leaderboard attributes

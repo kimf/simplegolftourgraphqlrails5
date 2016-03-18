@@ -21,16 +21,9 @@ class QueriesController < ApplicationController
       debug: true,
       variables: params[:variables],
       context: {
-        current_user: set_current_user
+        current_user: current_user
       }
     )
     render json: result
   end
-
-  private
-
-  def set_current_user
-    User.includes(:tours).find(135563)
-  end
-
 end

@@ -27,9 +27,10 @@ QueryType = GraphQL::ObjectType.define do
     description "Get a tour"
 
     resolve -> (_object, args, context) do
-      context[:current_user].tours.includes(
-        :users, memberships: [:user], seasons: [:events]
-      ).find(args["id"])
+      context[:current_user].tours.find(args["id"])
+      # context[:current_user].tours.includes(
+      #   :users, memberships: [:user], seasons: [:events]
+      # ).find(args["id"])
     end
   end
 
