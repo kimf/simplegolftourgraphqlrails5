@@ -18,11 +18,10 @@ class NotifyAdminJob
 
       case event_name
       when :scored_event
-        gametype = data[:gametype]
         scoring_type = data[:scoring_type]
 
         subject = "An event was scored"
-        message = "#{user.name} just scored an event in #{tour.name}. They played #{gametype} with #{scoring_type}"
+        message = "#{user.name} just scored an event in #{tour.name}. They played #{scoring_type}"
       when :invited_user
         invited_user = User.find(data[:invited_user])
 

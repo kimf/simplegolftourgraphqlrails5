@@ -10,7 +10,6 @@
 #  scoring_type :integer          default(0)
 #  team_event   :boolean          default(FALSE)
 #  course       :string(255)
-#  gametype     :string(255)
 #  season_id    :integer
 #
 
@@ -66,7 +65,6 @@ describe Event do
           user_id = FactoryGirl.create(:user, password: 'pass').id
 
           event.scoring_type = :strokes
-          event.gametype = 'Greensome'
 
           event.event_teams.build(user_ids: first_team_user_ids, points: 36)
           event.event_teams.build(user_ids: second_team_user_ids, points: 37)
@@ -133,7 +131,6 @@ describe Event do
           user_id = FactoryGirl.create(:user, password: 'pass').id
 
           reversed_event.scoring_type = :strokes
-          reversed_event.gametype = 'Greensome'
 
           reversed_event.event_teams.build(user_ids: first_team_user_ids, points: 72)
           reversed_event.event_teams.build(user_ids: second_team_user_ids, points: 73)

@@ -93,7 +93,7 @@ feature "event scoring" do
     end
 
     context "Team event" do
-      let!(:event){ FactoryGirl.create(:event, season: season, starts_at: Time.now.in_time_zone-2.hours, scoring_type: :strokes, gametype: 'Greensome', team_event: true) }
+      let!(:event){ FactoryGirl.create(:event, season: season, starts_at: Time.now.in_time_zone-2.hours, scoring_type: :strokes, team_event: true) }
 
       scenario "adding scores" do
         EventScoredJob.any_instance.expects(:perform)
@@ -214,7 +214,7 @@ feature "event scoring" do
     end
 
     context "Team event" do
-      let!(:reversed_event){ FactoryGirl.create(:event, season: reversed_season, starts_at: Time.now.in_time_zone-2.hours, scoring_type: :strokes, gametype: 'Greensome', team_event: true) }
+      let!(:reversed_event){ FactoryGirl.create(:event, season: reversed_season, starts_at: Time.now.in_time_zone-2.hours, scoring_type: :strokes, team_event: true) }
 
       scenario "adding scores" do
         EventScoredJob.any_instance.expects(:perform)

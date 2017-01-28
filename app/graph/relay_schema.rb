@@ -1,4 +1,6 @@
-RelaySchema = GraphQL::Schema.new(query: QueryType)
+RelaySchema = GraphQL::Schema.define do
+  query QueryType
+end
 
 # Responsible for dumping Schema.json to app/assets/javascripts/relay/
 module RelaySchemaHelpers

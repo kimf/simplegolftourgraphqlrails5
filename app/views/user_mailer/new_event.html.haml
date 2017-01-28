@@ -1,9 +1,7 @@
 %h3="New event in #{@tour.name}"
 %p.callout
   %strong="#{@event.starts_at.to_s(:short)}"
-  ="you're playing #{@event.gametype.capitalize}"
-  - if @event.team_event?
-    =" (#{@event.scoring_type.capitalize})"
+  ="you're playing #{@event.scoring_type.capitalize}"
   - unless @event.course.empty?
     = " at #{@event.course}"
 = link_to 'View event', @url, class: 'btn'

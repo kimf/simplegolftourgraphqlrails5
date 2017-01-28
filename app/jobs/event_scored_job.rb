@@ -12,7 +12,7 @@ class EventScoredJob
       end
 
       TrackUserEventJob.new.async.perform(:scored_event,
-        {user_id: scorer_id, event_id: event_id, tour_id: tour.id, gametype: event.gametype, scoring_type: event.scoring_type})
+        {user_id: scorer_id, event_id: event_id, tour_id: tour.id, scoring_type: event.scoring_type})
     end
   end
 

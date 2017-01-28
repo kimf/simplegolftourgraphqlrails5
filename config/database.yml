@@ -57,7 +57,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: simple_golftour_test
+  database: simple_golftour_test_relay_graphql
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -80,6 +80,6 @@ test:
 #
 production:
   <<: *default
-  database: simple_golftour_production
+  database: simple_golftour_production_relay_graphql
   username: simple_golftour
   password: <%= ENV['SIMPLE_GOLFTOUR_DATABASE_PASSWORD'] %>

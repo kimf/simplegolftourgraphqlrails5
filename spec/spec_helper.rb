@@ -12,6 +12,15 @@ ActiveRecord::Migration.maintain_test_schema!
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
+require 'capybara/poltergeist'
+Capybara.javascript_driver = :selenium
+
+Capybara.run_server = true #Whether start server when testing
+Capybara.server_port = 8123
+
+Capybara.default_host = 'localhost:3100'
+Capybara.app_host = "http://localhost:3100"
+
 RSpec.configure do |config|
   config.mock_with :mocha
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
@@ -25,7 +34,7 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = true
 
   config.include FactoryGirl::Syntax::Methods
-  config.include Sorcery::TestHelpers::Rails
+  config.include Sorcery::TestHelpers::Rails::Integration, type: :feature
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
@@ -58,5 +67,14 @@ def plain_mail_body(mail)
 end
 
 def assure_logged_in(user, password)
-  page.driver.post '/sessions', user: { email: user.email, password: password }
+  # login_user(user)
+  # page.driver.post '/sessions', user: { email: user.email, password: password }
+end
+
+def tour_path(tour)
+  "/tours/#{tour.id}"
+end
+
+def new_tour_event_path(tour)
+  tour_path(tour) + "/events/new"
 end

@@ -2,7 +2,21 @@ LeaderboardUserType = GraphQL::ObjectType.define do
   name "LeaderboardUserType"
   description "An user entry, returns basic user information"
 
-  field :id, !types.ID, "This id of this user"
+  field :db_id do
+    type !types.ID
+
+    resolve -> (object, _args, _context) do
+      object.id
+    end
+  end
+
+  field :id do
+    type !types.ID
+
+    resolve -> (_object, _args, _context) do
+      SecureRandom.uuid
+    end
+  end
 
   field :name, !types.String, "The name of this user"
 

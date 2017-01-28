@@ -1,8 +1,6 @@
 %h3="Hey #{@user.name}"
 %p.callout
-  ="Don't forget the next event in #{@tour.name},<br /> <strong>#{@event.starts_at.to_s(:short)}</strong> you're playing #{@event.gametype}".html_safe
-  - if @event.team_event?
-    ="(#{@event.scoring_type.capitalize})"
+  ="Don't forget the next event in #{@tour.name},<br /> <strong>#{@event.starts_at.to_s(:short)}</strong> you're playing #{@event.scoring_type}".html_safe
   - unless @event.course.empty?
     = " at #{@event.course}"
 = link_to 'View event', @url, class: 'btn'

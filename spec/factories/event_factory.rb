@@ -10,7 +10,6 @@
 #  scoring_type :integer          default(0)
 #  team_event   :boolean          default(FALSE)
 #  course       :string(255)
-#  gametype     :string(255)
 #  season_id    :integer
 #
 
@@ -19,7 +18,6 @@ FactoryGirl.define do
 
     starts_at    Time.now.in_time_zone
     course       'Nynäshamns GK'
-    gametype     :stableford
     scoring_type :points
     team_event   false
 

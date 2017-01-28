@@ -1,4 +1,4 @@
-ruby "2.3.0"
+ruby "2.3.3"
 source "https://rubygems.org"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails"
 gem "rails", ">= 5.0.0.beta3", "< 5.1"
@@ -20,8 +20,7 @@ gem "rack-cors"
 gem 'haml' #Needed for the emails for now
 
 # Graphql
-gem "graphql", github: "rmosolgo/graphql-ruby"
-gem "graphql-relay", github: "rmosolgo/graphql-relay-ruby"
+gem "graphql"
 
 gem "email_validator"
 
@@ -39,6 +38,8 @@ group :development, :test do
   gem "byebug"
   gem "spring-commands-rspec"
   gem "launchy"
+  gem "poltergeist"
+  gem "selenium-webdriver"
 end
 
 group :development do

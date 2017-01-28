@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature "creating event" do
+feature "creating event", js: true do
   let(:password){ 'passWoord' }
   let!(:user){ FactoryGirl.create(:user, password: password) }
 
@@ -76,7 +76,6 @@ feature "creating event" do
       e.team_event?.should eq(false)
       e.points?.should eq(false)
       e.strokes?.should eq(true)
-      e.gametype.should eq('Stroke Play')
     end
 
   end
@@ -104,7 +103,6 @@ feature "creating event" do
         e.team_event?.should eq(true)
         e.points?.should eq(false)
         e.strokes?.should eq(true)
-        e.gametype.should eq('Greensome')
       end
     end
   end
@@ -142,7 +140,6 @@ feature "creating event" do
         e.team_event?.should eq(true)
         e.points?.should eq(false)
         e.strokes?.should eq(true)
-        e.gametype.should eq('Scramble')
       end
     end
   end

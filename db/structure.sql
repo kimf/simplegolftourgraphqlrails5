@@ -2,11 +2,12 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.1
--- Dumped by pg_dump version 9.5.1
+-- Dumped from database version 9.6.1
+-- Dumped by pg_dump version 9.6.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -139,8 +140,10 @@ CREATE TABLE events (
     scoring_type integer DEFAULT 0,
     team_event boolean DEFAULT false,
     course character varying(255),
-    gametype character varying(255),
-    season_id integer
+    season_id integer,
+    course_id integer,
+    club character varying,
+    qualifier boolean DEFAULT false
 );
 
 
@@ -161,6 +164,41 @@ CREATE SEQUENCE events_id_seq
 --
 
 ALTER SEQUENCE events_id_seq OWNED BY events.id;
+
+
+--
+-- Name: live_scores; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE live_scores (
+    id integer NOT NULL,
+    user_id integer,
+    event_id integer,
+    points integer,
+    data json,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    team_index character varying
+);
+
+
+--
+-- Name: live_scores_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE live_scores_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: live_scores_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE live_scores_id_seq OWNED BY live_scores.id;
 
 
 --
@@ -216,7 +254,9 @@ CREATE TABLE scores (
     updated_at timestamp without time zone NOT NULL,
     event_id integer,
     event_points numeric,
-    season_id integer
+    season_id integer,
+    kr integer DEFAULT 0,
+    beers integer DEFAULT 0
 );
 
 
@@ -395,70 +435,77 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: authentications id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY authentications ALTER COLUMN id SET DEFAULT nextval('authentications_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: event_teams id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY event_teams ALTER COLUMN id SET DEFAULT nextval('event_teams_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: events id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY events ALTER COLUMN id SET DEFAULT nextval('events_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: live_scores id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY live_scores ALTER COLUMN id SET DEFAULT nextval('live_scores_id_seq'::regclass);
+
+
+--
+-- Name: memberships id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY memberships ALTER COLUMN id SET DEFAULT nextval('memberships_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: scores id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY scores ALTER COLUMN id SET DEFAULT nextval('scores_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: seasons id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY seasons ALTER COLUMN id SET DEFAULT nextval('seasons_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: tours id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY tours ALTER COLUMN id SET DEFAULT nextval('tours_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: user_events id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY user_events ALTER COLUMN id SET DEFAULT nextval('user_events_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
 --
--- Name: ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY ar_internal_metadata
@@ -466,7 +513,7 @@ ALTER TABLE ONLY ar_internal_metadata
 
 
 --
--- Name: authentications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: authentications authentications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY authentications
@@ -474,7 +521,7 @@ ALTER TABLE ONLY authentications
 
 
 --
--- Name: event_teams_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: event_teams event_teams_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY event_teams
@@ -482,7 +529,7 @@ ALTER TABLE ONLY event_teams
 
 
 --
--- Name: events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: events events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY events
@@ -490,7 +537,15 @@ ALTER TABLE ONLY events
 
 
 --
--- Name: players_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: live_scores live_scores_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY live_scores
+    ADD CONSTRAINT live_scores_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users players_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users
@@ -498,7 +553,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: players_tours_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: memberships players_tours_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY memberships
@@ -506,7 +561,7 @@ ALTER TABLE ONLY memberships
 
 
 --
--- Name: scores_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: scores scores_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY scores
@@ -514,7 +569,7 @@ ALTER TABLE ONLY scores
 
 
 --
--- Name: seasons_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: seasons seasons_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY seasons
@@ -522,7 +577,7 @@ ALTER TABLE ONLY seasons
 
 
 --
--- Name: tours_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: tours tours_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY tours
@@ -530,7 +585,7 @@ ALTER TABLE ONLY tours
 
 
 --
--- Name: user_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: user_events user_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY user_events
@@ -676,6 +731,58 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES ('20120420210158'), ('20121110201236'), ('20130220165435'), ('20130315175631'), ('20130318205835'), ('20140129212510'), ('20140129222336'), ('20140201210621'), ('20140201215406'), ('20140201221237'), ('20140327214110'), ('20140328160721'), ('20140330002739'), ('20140401113804'), ('20140401124935'), ('20140401133521'), ('20140402184838'), ('20140407131726'), ('20140411110645'), ('20140415073432'), ('20140415090722'), ('20140415103503'), ('20140415105200'), ('20140418205942'), ('20140422143556'), ('20140429085108'), ('20140508135239'), ('20140509213218'), ('20140512162526'), ('20140515114856'), ('20140730112813'), ('20140730115531'), ('20140801090517'), ('20140804072422'), ('20140812215308'), ('20140812233650'), ('20140818162211'), ('20150325164945'), ('20160310093157'), ('20160317234956');
+INSERT INTO schema_migrations (version) VALUES
+('20120420210158'),
+('20121110201236'),
+('20130220165435'),
+('20130315175631'),
+('20130318205835'),
+('20140129212510'),
+('20140129222336'),
+('20140201210621'),
+('20140201215406'),
+('20140201221237'),
+('20140327214110'),
+('20140328160721'),
+('20140330002739'),
+('20140401113804'),
+('20140401124935'),
+('20140401133521'),
+('20140402184838'),
+('20140407131726'),
+('20140411110645'),
+('20140415073432'),
+('20140415090722'),
+('20140415103503'),
+('20140415105200'),
+('20140418205942'),
+('20140422143556'),
+('20140429085108'),
+('20140508135239'),
+('20140509213218'),
+('20140512162526'),
+('20140515114856'),
+('20140730112813'),
+('20140730115531'),
+('20140801090517'),
+('20140804072422'),
+('20140812215308'),
+('20140812233650'),
+('20140818162211'),
+('20150325164945'),
+('20160310093157'),
+('20160317234956'),
+('20160506105909'),
+('20160511173554'),
+('20160513102220'),
+('20160515172329'),
+('20160516192120'),
+('20160516223202'),
+('20160518083207'),
+('20160524094730'),
+('20160525100733'),
+('20160623093552'),
+('20160802211008'),
+('20160902070918');
 
 

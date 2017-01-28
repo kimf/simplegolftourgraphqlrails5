@@ -3,9 +3,7 @@
 %br
 %br
 %h5
-  ="#{@event.gametype.capitalize}"
-  - if @event.team_event?
-    =" (#{@event.scoring_type.capitalize}) "
+  =" (#{@event.scoring_type.capitalize}) "
   - unless @event.course.empty?
     = " at #{@event.course} "
 
